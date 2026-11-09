@@ -1,0 +1,40 @@
+# Start here when experimenting. Restart the web service after editing settings.
+
+[models]
+#language = "ministral-3:3b"
+#language = "gemma2:9b"
+language = "qwen2.5:7b"
+
+embedding = "nomic-embed-text:v1.5"
+embedding_dimensions = 768
+# Nomic's recommended prefixes distinguish documents from search questions.
+document_prefix = "search_document: "
+query_prefix = "search_query: "
+
+[services]
+ollama_url = "http://ollama:11434"
+qdrant_url = "http://qdrant:6333"
+timeout_seconds = 600
+
+[storage]
+documents = "docs"
+state = "data/state"
+
+[chunking]
+# Character counts, not token counts. Overlap preserves context at boundaries.
+size = 1000
+overlap = 150
+embedding_batch_size = 8
+
+[retrieval]
+top_k = 4
+# Cosine similarity is a ranking signal, not a confidence probability.
+minimum_score = 0.55
+
+[generation]
+system_prompt = "config/system_prompt.txt"
+context_tokens = 8192
+maximum_answer_tokens = 512
+
+[downloads]
+maximum_megabytes = 25

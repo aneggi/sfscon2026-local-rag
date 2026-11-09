@@ -1,0 +1,31 @@
+# Downloaded filenames must be unique, without directories; use .txt, .md, or .pdf.
+# Add another [[documents]] table for each source, then download and ingest again.
+
+[[documents]]
+filename = "regolamento_edizlizio_predaia.pdf.md"
+url = "https://www.comune.predaia.tn.it/content/download/777/15512/file/Regolamento_edilizio_Predaia.pdf"
+title = "Regolamento Edilizio di Predaia"
+
+
+[[documents]]
+filename = "Statuto_predaia.pdf"
+url = "https://www.comune.predaia.tn.it/content/download/689/13790/file/Statuto_del_Comune_di_Predaia_agg._dicembre_2025.pdf"
+title = "Statuto del comune di Predaia"
+
+
+[[documents]]
+filename = "imis_predaia.pdf"
+url = "https://www.comune.predaia.tn.it/content/download/655/12362/file/RegolamentoIMIS2018.pdf"
+title = "Regolamento per la disciplina dell'Imposta Immobiliare Semplice"
+
+
+[[documents]]
+filename = "ambientale_predaia.pdf"
+url = "https://www.comune.predaia.tn.it/content/download/662/12656/file/011igiene_ambientale.pdf"
+title = "Regolamento per la tutela e il decoro dell'igiene ambientale"
+
+
+[[documents]]
+filename = "pgterradimezzo_predaia.pdf"
+url = "https://www.comune.predaia.tn.it/content/download/998/19109/file/Regolamento_Tavolo_PGZ_Terra_di_Mezzo_approvato.pdf"
+title = "Regolamento interno per il funzionamento del Tavolo del confronto e della proposta del Piano Giovani di Zona -Terra di Mezzo- di Predaia e Sfruz"

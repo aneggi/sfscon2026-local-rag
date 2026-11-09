@@ -1,0 +1,30 @@
+# Downloaded filenames must be unique, without directories; use .txt, .md, or .pdf.
+# Add another [[documents]] table for each source, then download and ingest again.
+[[documents]]
+filename = "regolamento1nonvig.pdf.md"
+url = "https://www.comune.bolzano.bz.it/ocmultibinary/download/9863/248481/3/7df5033cf8ba563e0492b8910a07feb6.pdf/file/5691584f8448b66e2608c0ae7543d4a8.pdf"
+title = "Regolamento COmune di Bolzano nonni vigili"
+
+
+[[documents]]
+filename = "regolamentoedlizionebolzano.pdf"
+url = "https://www.comune.bolzano.bz.it/ocmultibinary/download/9828/245541/2/3ad9de2344d1f6ec59e9f6c22f5f423b.pdf/file/884e49371f897bc7cfabdfc5b01088b6.pdf"
+title = "Regolamento COmune di Bolzano Edilizio"
+
+
+[[documents]]
+filename = "regedilridimpat.pdf"
+url = "https://www.comune.bolzano.bz.it/ocmultibinary/download/9828/245541/2/4eafa450f1602ddb71f6c874a1851f58.pdf/file/201badd508e8619447bd896eda2eec60.pdf"
+title = "Regolamento COmune di Bolzano Edilizio-riduzione impatto"
+
+
+[[documents]]
+filename = "regimpiantitele.pdf"
+url = "https://www.comune.bolzano.bz.it/ocmultibinary/download/9828/245541/2/b5343bd8bf5b592f9cf97884c38f8b15.pdf/file/384fe79530aed45932d37f83fa0c5479.pdf"
+title = "Regolamento COmune di Bolzano Edilizio-impianti telecomunicazion"
+
+
+[[documents]]
+filename = "fognaturareg.pdf"
+url = "https://www.comune.bolzano.bz.it/ocmultibinary/download/9900/251589/2/3115963e53bcf63b8c0c376bf3a29f9d.pdf/file/f88dc860ccbcae7381ee956c930d9d95.pdf"
+title = "Regolamento COmune di Bolzano Fognature"

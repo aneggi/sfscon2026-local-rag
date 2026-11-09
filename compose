@@ -1,0 +1,16 @@
+#!/bin/sh
+# Run Docker Compose inside Docker; no host Compose or Python installation is needed.
+set -eu
+
+project_directory=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+terminal_option=
+if [ -t 0 ] && [ -t 1 ]; then
+    terminal_option=--tty
+fi
+
+exec docker run --rm --interactive ${terminal_option:+--tty} \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --volume "$project_directory:$project_directory:ro" \
+    --workdir "$project_directory" \
+    --tmpfs /tmp:size=64m \
+    docker:29.1.3-cli compose "$@"

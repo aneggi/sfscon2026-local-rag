@@ -1,0 +1,118 @@
+name: sfscon-local-rag
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.16.2
+    restart: unless-stopped
+    environment:
+      QDRANT__TELEMETRY_DISABLED: "true"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - backend
+
+  ollama:
+    image: ollama/ollama:0.13.5
+    restart: unless-stopped
+    environment:
+      OLLAMA_NO_CLOUD: "1"
+      OLLAMA_MAX_LOADED_MODELS: "1"
+      OLLAMA_NUM_PARALLEL: "1"
+      OLLAMA_CONTEXT_LENGTH: "8192"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 10s
+      retries: 24
+      start_period: 10s
+    networks:
+      - backend
+      - downloads
+
+  # One-shot startup job: wait for services, then download only missing models.
+  models:
+    build: .
+    image: sfscon-local-rag-app
+    command: ["python", "-m", "local_rag.bootstrap"]
+    restart: "no"
+    depends_on:
+      ollama:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    volumes:
+      - ./config:/app/config:ro
+    networks:
+      - backend
+
+  web:
+    build: .
+    image: sfscon-local-rag-app
+    restart: unless-stopped
+    depends_on:
+      models:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8501:8501"
+    volumes:
+      - ./config:/app/config:ro
+      - documents:/app/docs
+      - pipeline_state:/app/data/state
+    tmpfs:
+      - /tmp:size=128m
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=5)"
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 15s
+    networks:
+      - backend
+      - downloads
+
+  # Development tools run in disposable containers, never in a host Python environment.
+  qdrant-test:
+    image: qdrant/qdrant:v1.16.2
+    profiles: [test]
+    environment:
+      QDRANT__TELEMETRY_DISABLED: "true"
+      # The integration corpus is tiny; keep its write-ahead log small in RAM.
+      QDRANT__STORAGE__WAL__WAL_CAPACITY_MB: "1"
+    tmpfs:
+      - /qdrant/storage:size=256m
+    networks:
+      - backend
+
+  tests:
+    build:
+      context: .
+      target: tests
+    profiles: [test]
+    depends_on:
+      qdrant-test:
+        condition: service_started
+    environment:
+      QDRANT_TEST_URL: "http://qdrant-test:6333"
+    tmpfs:
+      - /tmp:size=128m
+    networks:
+      - backend
+
+volumes:
+  documents:
+  qdrant_data:
+  ollama_data:
+  pipeline_state:
+
+networks:
+  # Qdrant and the startup job have no direct outbound network access.
+  backend:
+    internal: true
+  # Only the downloader and Ollama need Internet access during preparation.
+  downloads:
